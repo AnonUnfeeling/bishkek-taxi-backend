@@ -6,8 +6,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ua.jdroidcoder.persistent.dto.UserCoordinateDto;
 import ua.jdroidcoder.persistent.dto.UserDto;
 import ua.jdroidcoder.persistent.dto.UserProfileDto;
+import ua.jdroidcoder.persistent.entity.UserCoordinateEntity;
+import ua.jdroidcoder.service.UserCoordinateService;
 import ua.jdroidcoder.service.UserService;
 
 import javax.validation.Valid;
@@ -18,10 +21,12 @@ import javax.validation.Valid;
 @RestController
 public class UserController {
     private UserService userService;
+    private UserCoordinateService userCoordinateService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserCoordinateService userCoordinateService) {
         this.userService = userService;
+        this.userCoordinateService = userCoordinateService;
     }
 
     @PostMapping("register")
@@ -46,5 +51,15 @@ public class UserController {
             return ResponseEntity.badRequest().body(bindingResult.getFieldErrors().get(0).getDefaultMessage());
         }
         return ResponseEntity.ok(userService.login(userDto));
+    }
+
+    @PostMapping("setCoordinate")
+    private void setCoordinate(UserCoordinateDto userDto) {
+        userCoordinateService.setCoordinate(userDto);
+    }
+
+    @PostMapping("getUserCoordinate")
+    private ResponseEntity getUserCoordinate(String userEmail) {
+        return ResponseEntity.ok(userCoordinateService.getCoordinate(userEmail));
     }
 }
