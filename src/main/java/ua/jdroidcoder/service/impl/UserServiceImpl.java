@@ -16,47 +16,31 @@ import ua.jdroidcoder.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
-    private UserProfileRepository userProfileEntity;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserProfileRepository userProfileEntity) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.userProfileEntity = userProfileEntity;
     }
 
     @Override
     public boolean register(UserDto userDto) {
         try {
-            return (userRepository.save(convertUserDtoToEntity(userDto)) != null);
+            return (userRepository.save(userDto.clone()) != null);
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
 
     @Override
     public UserProfileDto login(UserDto userDto) {
-        return convertUserProfileEntityToDto(userProfileEntity.findUserProfileByEmail(
-                userRepository.findUserByEmail(userDto.getEmail()).getEmail()));
+        return  userRepository.findUserByEmail(userDto.getEmail()).getUserProfileEntity().clone();
     }
 
     @Override
     public UserProfileDto setDataForUser(UserProfileDto userDto) {
-        return convertUserProfileEntityToDto(userProfileEntity.save(convertUserProfileDtoToEntity(userDto)));
-    }
-
-    private UserEntity convertUserDtoToEntity(UserDto userDto) {
-        return userDto.clone();
-    }
-
-    private UserDto convertUserEntityToDto(UserEntity userEntity) {
-        return userEntity.clone();
-    }
-
-    private UserProfileDto convertUserProfileEntityToDto(UserProfileEntity userProfileEntity) {
-        return userProfileEntity.clone();
-    }
-
-    private UserProfileEntity convertUserProfileDtoToEntity(UserProfileDto userProfileEntity) {
-        return userProfileEntity.clone();
+        UserEntity userEntity = userRepository.findUserByEmail(userDto.getEmail());
+        userEntity.setUserProfileEntity(userDto.clone());
+        return userRepository.save(userEntity).getUserProfileEntity().clone();
     }
 }

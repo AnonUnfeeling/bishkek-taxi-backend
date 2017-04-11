@@ -62,6 +62,7 @@ public class UserDto {
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(getEmail());
         userEntity.setPassword(getPassword());
+//        userEntity.setUserProfileEntity(new UserProfileEntity("firstName","lastname","123"));
         return userEntity;
     }
 }

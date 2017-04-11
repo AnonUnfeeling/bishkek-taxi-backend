@@ -38,10 +38,7 @@ public class UserController {
     }
 
     @PostMapping("setDataToProfile")
-    private ResponseEntity setDataToProfile(@Valid UserProfileDto userDto, BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) {
-//            return ResponseEntity.badRequest().body(bindingResult.getFieldErrors().get(0).getDefaultMessage());
-//        }
+    private ResponseEntity setDataToProfile(@Valid UserProfileDto userDto) {
         return ResponseEntity.ok(userService.setDataForUser(userDto));
     }
 

@@ -17,7 +17,7 @@ public class UserEntity extends AbstractEntity<Long> {
     @Column(name = "password")
     private String password;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     UserProfileEntity userProfileEntity;
 
     public UserEntity() {

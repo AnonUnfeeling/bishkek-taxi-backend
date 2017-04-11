@@ -12,8 +12,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "user_coordinate")
 public class UserCoordinateEntity extends AbstractEntity<Long> {
-    @Column(name = "user_email",unique = true
-    )
+    @Column(name = "user_email", unique = true)
     private String userEmail;
     @Column(name = "lat")
     private Double lat;

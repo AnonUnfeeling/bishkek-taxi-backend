@@ -23,8 +23,6 @@ public class UserProfileEntity extends AbstractEntity<Long> {
     private String phone;
     @Column(name = "email", unique = true)
     private String email;
-    @OneToOne
-    private UserEntity userEntity;
 
     public UserProfileEntity() {
     }
@@ -57,14 +55,6 @@ public class UserProfileEntity extends AbstractEntity<Long> {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public UserEntity getUserEntity() {
-        return userEntity;
-    }
-
-    public void setUserEntity(UserEntity userEntity) {
-        this.userEntity = userEntity;
     }
 
     public String getEmail() {
