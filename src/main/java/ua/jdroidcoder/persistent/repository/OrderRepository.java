@@ -8,4 +8,8 @@ import ua.jdroidcoder.persistent.entity.OrdersEntity;
  */
 public interface OrderRepository extends CrudRepository<OrdersEntity, Long> {
     Iterable<OrdersEntity> findOrderByUserPhone(String userPhone);
+
+    OrdersEntity findByUserPhone(String userPhone);
+
+    Iterable<OrdersEntity> findOrderByDriverPhone(String driverPhone);
 }

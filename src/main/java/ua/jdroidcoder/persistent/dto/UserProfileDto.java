@@ -3,7 +3,6 @@ package ua.jdroidcoder.persistent.dto;
 import org.hibernate.validator.constraints.NotEmpty;
 import ua.jdroidcoder.persistent.entity.UserProfileEntity;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Size;
 
 /**

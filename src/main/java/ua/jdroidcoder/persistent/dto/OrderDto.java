@@ -10,32 +10,28 @@ import java.util.Date;
  */
 public class OrderDto {
     private Long id;
-
     @NotEmpty(message = "The address cannot be empty")
     private String pointA;
-
     @NotEmpty(message = "The destination cannot be empty")
     private String pointB;
-
-    @NotEmpty(message = "The time cannot be empty")
     private Long time;
-
     @NotEmpty(message = "The user phone cannot be empty")
     private String userPhone;
-
     @NotEmpty(message = "The status cannot be empty")
     private String status;
+    private String driverPhone;
 
     public OrderDto() {
     }
 
-    public OrderDto(String pointA, String pointB, Long time, String userPhone, String status, Long id) {
+    public OrderDto(String pointA, String pointB, Long time, String userPhone, String status, Long id, String driverPhone) {
         this.id = id;
         this.pointA = pointA;
         this.pointB = pointB;
         this.time = time;
         this.userPhone = userPhone;
         this.status = status;
+        this.driverPhone = driverPhone;
     }
 
     public String getPointA() {
@@ -86,7 +82,15 @@ public class OrderDto {
         this.id = id;
     }
 
+    public String getDriverPhone() {
+        return driverPhone;
+    }
+
+    public void setDriverPhone(String driverPhone) {
+        this.driverPhone = driverPhone;
+    }
+
     public OrdersEntity clone() {
-        return new OrdersEntity(getPointA(), getPointB(), new Date(getTime()), getUserPhone(), getStatus());
+        return new OrdersEntity(getPointA(), getPointB(), new Date(getTime()), getUserPhone(), getStatus(), getDriverPhone());
     }
 }

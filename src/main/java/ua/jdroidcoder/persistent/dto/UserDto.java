@@ -4,7 +4,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 import ua.jdroidcoder.persistent.entity.UserEntity;
 import ua.jdroidcoder.persistent.entity.UserProfileEntity;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Size;
 
 /**
@@ -16,7 +15,7 @@ public class UserDto {
     @Size(min = 6, message = "Password is small")
     private String password;
     private Long id;
-    private UserProfileEntity profileEntity;
+    private UserProfileDto profileEntity;
 
     public UserDto() {
     }
@@ -50,11 +49,11 @@ public class UserDto {
         this.id = id;
     }
 
-    public UserProfileEntity getProfileEntity() {
+    public UserProfileDto getProfileEntity() {
         return profileEntity;
     }
 
-    public void setProfileEntity(UserProfileEntity profileEntity) {
+    public void setProfileEntity(UserProfileDto profileEntity) {
         this.profileEntity = profileEntity;
     }
 
@@ -62,7 +61,7 @@ public class UserDto {
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(getEmail());
         userEntity.setPassword(getPassword());
-//        userEntity.setUserProfileEntity(new UserProfileEntity("firstName","lastname","123"));
+//        userEntity.setUserProfileEntity(new UserProfileEntity());
         return userEntity;
     }
 }

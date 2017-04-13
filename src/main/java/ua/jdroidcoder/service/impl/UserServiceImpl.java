@@ -6,7 +6,6 @@ import ua.jdroidcoder.persistent.dto.UserDto;
 import ua.jdroidcoder.persistent.dto.UserProfileDto;
 import ua.jdroidcoder.persistent.entity.UserEntity;
 import ua.jdroidcoder.persistent.entity.UserProfileEntity;
-import ua.jdroidcoder.persistent.repository.UserProfileRepository;
 import ua.jdroidcoder.persistent.repository.UserRepository;
 import ua.jdroidcoder.service.UserService;
 
@@ -27,8 +26,7 @@ public class UserServiceImpl implements UserService {
         try {
             return (userRepository.save(userDto.clone()) != null);
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+             return false;
         }
     }
 
@@ -40,7 +38,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProfileDto setDataForUser(UserProfileDto userDto) {
         UserEntity userEntity = userRepository.findUserByEmail(userDto.getEmail());
+        if(userEntity.getUserProfileEntity()==null){
+            userEntity.setUserProfileEntity(new UserProfileEntity());
+        }
         userEntity.setUserProfileEntity(userDto.clone());
-        return userRepository.save(userEntity).getUserProfileEntity().clone();
+        userRepository.save(userEntity);
+        return userDto;
     }
 }

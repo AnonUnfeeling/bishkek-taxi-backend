@@ -37,6 +37,27 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<OrderDto> getAllOrders() {
+        return StreamSupport.stream(orderRepository.findAll().spliterator(), false)
+                .filter(ordersEntity -> ordersEntity.getStatus().equals("new"))
+                .map(OrdersEntity::clone)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public OrderDto acceptOrder(OrderDto orderDto) {
+        return orderRepository.save(orderRepository.findOne(orderDto.getId())
+                .setDriverPhone(orderDto.getDriverPhone()).setStatus("accepted")).clone();
+    }
+
+    @Override
+    public List<OrderDto> getAcceptOrders(String driverPhone) {
+        return StreamSupport.stream(orderRepository.findOrderByDriverPhone(driverPhone).spliterator(), false)
+                .map(OrdersEntity::clone)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void removeOrderById(Long id) {
         orderRepository.delete(id);
     }

@@ -15,4 +15,10 @@ public interface OrderService {
     void removeOrderById(Long id);
 
     boolean getOrderById(Long id);
+
+    List<OrderDto> getAllOrders();
+
+    OrderDto acceptOrder(OrderDto orderDto);
+
+    List<OrderDto> getAcceptOrders(String driverPhone);
 }

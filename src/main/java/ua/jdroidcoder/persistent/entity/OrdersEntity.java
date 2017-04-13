@@ -12,7 +12,6 @@ import java.util.Date;
 @Table(name = "orders")
 public class OrdersEntity extends AbstractEntity<Long> {
     private static long serialVersionUID = 4646764645484896L;
-
     @Column(name = "point_a")
     private String pointA;
     @Column(name = "point_b")
@@ -23,16 +22,20 @@ public class OrdersEntity extends AbstractEntity<Long> {
     private String userPhone;
     @Column(name = "status")
     private String status;
+    @Column(name = "driver_phone")
+    private String driverPhone;
 
     public OrdersEntity() {
     }
 
-    public OrdersEntity(String pointA, String pointB, Date time, String userPhone, String status) {
+    public OrdersEntity(String pointA, String pointB, Date time, String userPhone, String status,
+                        String driverPhone) {
         this.pointA = pointA;
         this.pointB = pointB;
         this.time = time;
         this.userPhone = userPhone;
         this.status = status;
+        this.driverPhone = driverPhone;
     }
 
     public String getUserPhone() {
@@ -71,8 +74,18 @@ public class OrdersEntity extends AbstractEntity<Long> {
         return status;
     }
 
-    public void setStatus(String status) {
+    public OrdersEntity setStatus(String status) {
         this.status = status;
+        return this;
+    }
+
+    public String getDriverPhone() {
+        return driverPhone;
+    }
+
+    public OrdersEntity setDriverPhone(String driverPhone) {
+        this.driverPhone = driverPhone;
+        return this;
     }
 
     @Override
@@ -86,6 +99,6 @@ public class OrdersEntity extends AbstractEntity<Long> {
     }
 
     public OrderDto clone() {
-        return new OrderDto(getPointA(), getPointB(), getTime().getTime(), getUserPhone(), getStatus(),getId());
+        return new OrderDto(getPointA(), getPointB(), getTime().getTime(), getUserPhone(), getStatus(), getId(), getDriverPhone());
     }
 }

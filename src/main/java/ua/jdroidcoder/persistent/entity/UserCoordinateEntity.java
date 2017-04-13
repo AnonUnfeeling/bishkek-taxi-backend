@@ -12,8 +12,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "user_coordinate")
 public class UserCoordinateEntity extends AbstractEntity<Long> {
-    @Column(name = "user_email", unique = true)
-    private String userEmail;
+    @Column(name = "user_phone", unique = true)
+    private String userPhone;
     @Column(name = "lat")
     private Double lat;
     @Column(name = "lng")
@@ -22,18 +22,18 @@ public class UserCoordinateEntity extends AbstractEntity<Long> {
     public UserCoordinateEntity() {
     }
 
-    public UserCoordinateEntity(String userEmail, Double lat, Double lng) {
-        this.userEmail = userEmail;
+    public UserCoordinateEntity(String userPhone, Double lat, Double lng) {
+        this.userPhone = userPhone;
         this.lat = lat;
         this.lng = lng;
     }
 
-    public String getUserId() {
-        return userEmail;
+    public String getUserPhone() {
+        return userPhone;
     }
 
-    public void setUserId(String userEmail) {
-        this.userEmail = userEmail;
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
     }
 
     public Double getLat() {
@@ -53,7 +53,7 @@ public class UserCoordinateEntity extends AbstractEntity<Long> {
     }
 
     public UserCoordinateDto clone() {
-        return new UserCoordinateDto(getUserId(), getLat(), getLng());
+        return new UserCoordinateDto(getUserPhone(), getLat(), getLng());
     }
 
     @Override
@@ -64,14 +64,14 @@ public class UserCoordinateEntity extends AbstractEntity<Long> {
 
         UserCoordinateEntity that = (UserCoordinateEntity) o;
 
-        return userEmail != null ? userEmail.equals(that.userEmail) : that.userEmail == null;
+        return userPhone != null ? userPhone.equals(that.userPhone) : that.userPhone == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + (userEmail != null ? userEmail.hashCode() : 0);
+        result = 31 * result + (userPhone != null ? userPhone.hashCode() : 0);
         return result;
     }
 }

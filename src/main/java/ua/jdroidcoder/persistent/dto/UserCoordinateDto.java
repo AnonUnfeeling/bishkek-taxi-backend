@@ -8,25 +8,25 @@ import javax.persistence.Column;
  * Created by jdroidcoder on 10.04.17.
  */
 public class UserCoordinateDto {
-    private String userEmail;
+    private String userPhone;
     private Double lat;
     private Double lng;
 
     public UserCoordinateDto() {
     }
 
-    public UserCoordinateDto(String userEmail, Double lat, Double lng) {
-        this.userEmail = userEmail;
+    public UserCoordinateDto(String userPhone, Double lat, Double lng) {
+        this.userPhone = userPhone;
         this.lat = lat;
         this.lng = lng;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public String getUserPhone() {
+        return userPhone;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
     }
 
     public Double getLat() {
@@ -46,7 +46,7 @@ public class UserCoordinateDto {
     }
 
     public UserCoordinateEntity clone() {
-        return new UserCoordinateEntity(getUserEmail()
+        return new UserCoordinateEntity(getUserPhone()
                 , getLat(), getLng());
     }
 }

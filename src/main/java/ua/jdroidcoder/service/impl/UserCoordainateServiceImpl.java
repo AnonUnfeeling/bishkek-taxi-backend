@@ -21,7 +21,7 @@ public class UserCoordainateServiceImpl implements UserCoordinateService {
 
     @Override
     public UserCoordinateDto setCoordinate(UserCoordinateDto coordinateDto) {
-        UserCoordinateEntity coordinateEntity = coordinateRepository.findUserCoordinateByUserEmail(coordinateDto.getUserEmail());
+        UserCoordinateEntity coordinateEntity = coordinateRepository.findUserCoordinateByUserPhone(coordinateDto.getUserPhone());
         coordinateDto.setLat(coordinateDto.getLat());
         coordinateDto.setLng(coordinateDto.getLng());
         if (coordinateEntity == null) {
@@ -32,7 +32,7 @@ public class UserCoordainateServiceImpl implements UserCoordinateService {
     }
 
     @Override
-    public UserCoordinateDto getCoordinate(String userEmail) {
-        return coordinateRepository.findUserCoordinateByUserEmail(userEmail).clone();
+    public UserCoordinateDto getCoordinate(String userPhone) {
+        return coordinateRepository.findUserCoordinateByUserPhone(userPhone).clone();
     }
 }

@@ -27,8 +27,9 @@ public class UserEntity extends AbstractEntity<Long> {
         return userProfileEntity;
     }
 
-    public void setUserProfileEntity(UserProfileEntity userProfileEntity) {
+    public UserEntity setUserProfileEntity(UserProfileEntity userProfileEntity) {
         this.userProfileEntity = userProfileEntity;
+        return this;
     }
 
     public String getEmail() {

@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping("setDataToProfile")
-    private ResponseEntity setDataToProfile(@Valid UserProfileDto userDto) {
+    private ResponseEntity setDataToProfile(UserProfileDto userDto) {
         return ResponseEntity.ok(userService.setDataForUser(userDto));
     }
 
@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @PostMapping("getUserCoordinate")
-    private ResponseEntity getUserCoordinate(String userEmail) {
-        return ResponseEntity.ok(userCoordinateService.getCoordinate(userEmail));
+    private ResponseEntity getUserCoordinate(String userPhone) {
+        return ResponseEntity.ok(userCoordinateService.getCoordinate(userPhone));
     }
 }
