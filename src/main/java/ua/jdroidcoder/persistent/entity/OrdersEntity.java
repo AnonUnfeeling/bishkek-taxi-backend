@@ -14,8 +14,12 @@ public class OrdersEntity extends AbstractEntity<Long> {
     private static long serialVersionUID = 4646764645484896L;
     @Column(name = "point_a")
     private String pointA;
+    @Column(name = "point_a_coordinate")
+    private double[] pointACoordinate;
     @Column(name = "point_b")
     private String pointB;
+    @Column(name = "point_b_coordinate")
+    private double[] pointBCoordinate;
     @Column(name = "time")
     private Date time;
     @Column(name = "user_phone")
@@ -28,14 +32,19 @@ public class OrdersEntity extends AbstractEntity<Long> {
     public OrdersEntity() {
     }
 
-    public OrdersEntity(String pointA, String pointB, Date time, String userPhone, String status,
-                        String driverPhone) {
+    public OrdersEntity(String pointA, String pointB, Date time,
+                        String userPhone, String status,
+                        String driverPhone,
+                        double[] pointACoordinate,
+                        double[] pointBCoordinate) {
         this.pointA = pointA;
         this.pointB = pointB;
         this.time = time;
         this.userPhone = userPhone;
         this.status = status;
         this.driverPhone = driverPhone;
+        this.pointACoordinate = pointACoordinate;
+        this.pointBCoordinate = pointBCoordinate;
     }
 
     public String getUserPhone() {
@@ -88,6 +97,22 @@ public class OrdersEntity extends AbstractEntity<Long> {
         return this;
     }
 
+    public double[] getPointBCoordinate() {
+        return pointBCoordinate;
+    }
+
+    public void setPointBCoordinate(double[] pointBCoordinate) {
+        this.pointBCoordinate = pointBCoordinate;
+    }
+
+    public double[] getPointACoordinate() {
+        return pointACoordinate;
+    }
+
+    public void setPointACoordinate(double[] pointACoordinate) {
+        this.pointACoordinate = pointACoordinate;
+    }
+
     @Override
     public String toString() {
         return "OrdersEntity{" +
@@ -99,6 +124,8 @@ public class OrdersEntity extends AbstractEntity<Long> {
     }
 
     public OrderDto clone() {
-        return new OrderDto(getPointA(), getPointB(), getTime().getTime(), getUserPhone(), getStatus(), getId(), getDriverPhone());
+        return new OrderDto(getPointA(), getPointACoordinate(),
+                getPointB(), getPointBCoordinate(), getTime().getTime(),
+                getUserPhone(), getStatus(), getId(), getDriverPhone());
     }
 }

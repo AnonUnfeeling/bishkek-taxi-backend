@@ -41,7 +41,10 @@ public class UserServiceImpl implements UserService {
         if(userEntity.getUserProfileEntity()==null){
             userEntity.setUserProfileEntity(new UserProfileEntity());
         }
-        userEntity.setUserProfileEntity(userDto.clone());
+        userEntity.getUserProfileEntity().setEmail(userDto.getEmail());
+        userEntity.getUserProfileEntity().setFirtName(userDto.getFirstName());
+        userEntity.getUserProfileEntity().setLastName(userDto.getLastName());
+        userEntity.getUserProfileEntity().setPhone(userDto.getPhone());
         userRepository.save(userEntity);
         return userDto;
     }

@@ -12,8 +12,10 @@ public class OrderDto {
     private Long id;
     @NotEmpty(message = "The address cannot be empty")
     private String pointA;
+    private double[] pointACoordinate;
     @NotEmpty(message = "The destination cannot be empty")
     private String pointB;
+    private double[] pointBCoordinate;
     private Long time;
     @NotEmpty(message = "The user phone cannot be empty")
     private String userPhone;
@@ -24,7 +26,10 @@ public class OrderDto {
     public OrderDto() {
     }
 
-    public OrderDto(String pointA, String pointB, Long time, String userPhone, String status, Long id, String driverPhone) {
+    public OrderDto(String pointA, double[] pointACoordinate,
+                    String pointB, double[] pointBCoordinate,
+                    Long time, String userPhone, String status,
+                    Long id, String driverPhone) {
         this.id = id;
         this.pointA = pointA;
         this.pointB = pointB;
@@ -32,6 +37,8 @@ public class OrderDto {
         this.userPhone = userPhone;
         this.status = status;
         this.driverPhone = driverPhone;
+        this.pointACoordinate = pointACoordinate;
+        this.pointBCoordinate = pointBCoordinate;
     }
 
     public String getPointA() {
@@ -90,7 +97,25 @@ public class OrderDto {
         this.driverPhone = driverPhone;
     }
 
+    public double[] getPointACoordinate() {
+        return pointACoordinate;
+    }
+
+    public void setPointACoordinate(double[] pointACoordinate) {
+        this.pointACoordinate = pointACoordinate;
+    }
+
+    public double[] getPointBCoordinate() {
+        return pointBCoordinate;
+    }
+
+    public void setPointBCoordinate(double[] pointBCoordinate) {
+        this.pointBCoordinate = pointBCoordinate;
+    }
+
     public OrdersEntity clone() {
-        return new OrdersEntity(getPointA(), getPointB(), new Date(getTime()), getUserPhone(), getStatus(), getDriverPhone());
+        return new OrdersEntity(getPointA(), getPointB(), new Date(getTime()),
+                getUserPhone(), getStatus(), getDriverPhone(),
+                getPointACoordinate(), getPointBCoordinate());
     }
 }
