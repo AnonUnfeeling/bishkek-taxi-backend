@@ -23,14 +23,19 @@ public class UserProfileEntity extends AbstractEntity<Long> {
     private String phone;
     @Column(name = "email", unique = true)
     private String email;
+    @Column(name = "balance")
+    private int balance;
 
     public UserProfileEntity() {
     }
 
-    public UserProfileEntity(String firtName, String lastName, String phone) {
+    public UserProfileEntity(String firtName, String lastName, String phone,
+                             String email, int balance) {
         this.firtName = firtName;
         this.lastName = lastName;
         this.phone = phone;
+        this.email = email;
+        this.balance = balance;
     }
 
     public String getFirtName() {
@@ -65,12 +70,21 @@ public class UserProfileEntity extends AbstractEntity<Long> {
         this.email = email;
     }
 
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
     public UserProfileDto clone() {
         UserProfileDto userProfileDto = new UserProfileDto();
         userProfileDto.setPhone(getPhone());
         userProfileDto.setLastName(getLastName());
         userProfileDto.setFirstName(getFirtName());
         userProfileDto.setEmail(getEmail());
+        userProfileDto.setBalance(getBalance());
         return userProfileDto;
     }
 }

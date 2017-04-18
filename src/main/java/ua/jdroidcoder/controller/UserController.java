@@ -3,6 +3,7 @@ package ua.jdroidcoder.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,4 +60,16 @@ public class UserController {
     private ResponseEntity getUserCoordinate(String userPhone) {
         return ResponseEntity.ok(userCoordinateService.getCoordinate(userPhone));
     }
+
+    @GetMapping("editBalance")
+    private ResponseEntity editBalance(String userEmail, int balance) {
+        userService.editBalance(userEmail, balance);
+        return ResponseEntity.ok("");
+    }
+
+    @PostMapping("getProfile")
+    private ResponseEntity getProfile(String email) {
+        return ResponseEntity.ok(userService.getProfile(email));
+    }
 }
+

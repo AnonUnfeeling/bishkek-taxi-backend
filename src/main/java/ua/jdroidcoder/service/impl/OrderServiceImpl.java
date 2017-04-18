@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ua.jdroidcoder.persistent.dto.OrderDto;
 import ua.jdroidcoder.persistent.entity.OrdersEntity;
 import ua.jdroidcoder.persistent.repository.OrderRepository;
+import ua.jdroidcoder.persistent.repository.UserProfileRepository;
 import ua.jdroidcoder.service.OrderService;
 
 import java.util.List;
@@ -55,6 +56,12 @@ public class OrderServiceImpl implements OrderService {
         return StreamSupport.stream(orderRepository.findOrderByDriverPhone(driverPhone).spliterator(), false)
                 .map(OrdersEntity::clone)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public OrderDto removeAcceptedOrder(Long id) {
+        return orderRepository.save(orderRepository.findOne(id)
+                .setDriverPhone(null).setStatus("new")).clone();
     }
 
     @Override

@@ -26,26 +26,42 @@ public class UserServiceImpl implements UserService {
         try {
             return (userRepository.save(userDto.clone()) != null);
         } catch (Exception e) {
-             return false;
+            return false;
         }
     }
 
     @Override
     public UserProfileDto login(UserDto userDto) {
-        return  userRepository.findUserByEmail(userDto.getEmail()).getUserProfileEntity().clone();
+        return userRepository.findUserByEmail(userDto.getEmail()).getUserProfileEntity().clone();
     }
 
     @Override
     public UserProfileDto setDataForUser(UserProfileDto userDto) {
         UserEntity userEntity = userRepository.findUserByEmail(userDto.getEmail());
-        if(userEntity.getUserProfileEntity()==null){
+        if (userEntity.getUserProfileEntity() == null) {
             userEntity.setUserProfileEntity(new UserProfileEntity());
         }
         userEntity.getUserProfileEntity().setEmail(userDto.getEmail());
         userEntity.getUserProfileEntity().setFirtName(userDto.getFirstName());
         userEntity.getUserProfileEntity().setLastName(userDto.getLastName());
         userEntity.getUserProfileEntity().setPhone(userDto.getPhone());
+        userEntity.getUserProfileEntity().setBalance(userDto.getBalance());
         userRepository.save(userEntity);
         return userDto;
+    }
+
+    @Override
+    public void editBalance(String userPhone, int balance) {
+        UserEntity userEntity = userRepository.findUserByEmail(userPhone);
+        if (userEntity.getUserProfileEntity() == null) {
+            userEntity.setUserProfileEntity(new UserProfileEntity());
+        }
+        userEntity.getUserProfileEntity().setBalance(userEntity.getUserProfileEntity().getBalance() + balance);
+        userRepository.save(userEntity);
+    }
+
+    @Override
+    public UserProfileDto getProfile(String email) {
+        return userRepository.findUserByEmail(email).getUserProfileEntity().clone();
     }
 }

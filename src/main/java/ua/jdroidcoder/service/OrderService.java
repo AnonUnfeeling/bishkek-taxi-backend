@@ -21,4 +21,6 @@ public interface OrderService {
     OrderDto acceptOrder(OrderDto orderDto);
 
     List<OrderDto> getAcceptOrders(String driverPhone);
+
+    OrderDto removeAcceptedOrder(Long id);
 }

@@ -47,6 +47,11 @@ public class OrderController {
         return ResponseEntity.ok(orderService.acceptOrder(orderDto));
     }
 
+    @PostMapping("removeAcceptedOrder")
+    public ResponseEntity removeAcceptedOrder(Long id){
+        return ResponseEntity.ok(orderService.removeAcceptedOrder(id));
+    }
+
     @GetMapping("getAcceptOrders")
     private ResponseEntity getAllAcceptOrders(String driverPhone){
         return ResponseEntity.ok(orderService.getAcceptOrders(driverPhone));

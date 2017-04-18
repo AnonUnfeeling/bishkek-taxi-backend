@@ -17,14 +17,25 @@ public class UserProfileDto {
     @Size(max = 6)
     private String phone;
     private String email;
+    private int balance;
 
     public UserProfileDto() {
     }
 
-    public UserProfileDto(String firstName, String lastName, String phone) {
+    public UserProfileDto(String firstName, String lastName, String phone, String email, int balance) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
+        this.email = email;
+        this.balance = balance;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
 
     public String getFirstName() {
@@ -65,6 +76,7 @@ public class UserProfileDto {
         userProfileEntity.setFirtName(getFirstName());
         userProfileEntity.setLastName(getLastName());
         userProfileEntity.setEmail(getEmail());
+        userProfileEntity.setBalance(getBalance());
         return userProfileEntity;
     }
 }

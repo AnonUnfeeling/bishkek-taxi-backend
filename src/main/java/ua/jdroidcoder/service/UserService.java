@@ -12,4 +12,8 @@ public interface UserService {
     UserProfileDto login(UserDto userDto);
 
     UserProfileDto setDataForUser(UserProfileDto userDto);
+
+    void editBalance(String userEmail, int balance);
+
+    UserProfileDto getProfile(String email);
 }
