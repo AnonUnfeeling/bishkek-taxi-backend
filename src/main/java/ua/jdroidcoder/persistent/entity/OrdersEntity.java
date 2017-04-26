@@ -28,6 +28,8 @@ public class OrdersEntity extends AbstractEntity<Long> {
     private String status;
     @Column(name = "driver_phone")
     private String driverPhone;
+    @Column(name = "accept_date")
+    private Date acceptDate;
 
     public OrdersEntity() {
     }
@@ -36,7 +38,7 @@ public class OrdersEntity extends AbstractEntity<Long> {
                         String userPhone, String status,
                         String driverPhone,
                         double[] pointACoordinate,
-                        double[] pointBCoordinate) {
+                        double[] pointBCoordinate, Date acceptDate) {
         this.pointA = pointA;
         this.pointB = pointB;
         this.time = time;
@@ -45,6 +47,7 @@ public class OrdersEntity extends AbstractEntity<Long> {
         this.driverPhone = driverPhone;
         this.pointACoordinate = pointACoordinate;
         this.pointBCoordinate = pointBCoordinate;
+        this.acceptDate = acceptDate;
     }
 
     public String getUserPhone() {
@@ -113,6 +116,15 @@ public class OrdersEntity extends AbstractEntity<Long> {
         this.pointACoordinate = pointACoordinate;
     }
 
+    public Date getAcceptDate() {
+        return acceptDate;
+    }
+
+    public OrdersEntity setAcceptDate(Date acceptDate) {
+        this.acceptDate = acceptDate;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "OrdersEntity{" +
@@ -124,8 +136,14 @@ public class OrdersEntity extends AbstractEntity<Long> {
     }
 
     public OrderDto clone() {
-        return new OrderDto(getPointA(), getPointACoordinate(),
-                getPointB(), getPointBCoordinate(), getTime().getTime(),
-                getUserPhone(), getStatus(), getId(), getDriverPhone());
+        if(getAcceptDate()==null){
+            return new OrderDto(getPointA(), getPointACoordinate(),
+                    getPointB(), getPointBCoordinate(), getTime().getTime(),
+                    getUserPhone(), getStatus(), getId(), getDriverPhone());
+        }else {
+            return new OrderDto(getPointA(), getPointACoordinate(),
+                    getPointB(), getPointBCoordinate(), getTime().getTime(),
+                    getUserPhone(), getStatus(), getId(), getDriverPhone(), getAcceptDate());
+        }
     }
 }

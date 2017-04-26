@@ -22,10 +22,26 @@ public class OrderDto {
     @NotEmpty(message = "The status cannot be empty")
     private String status;
     private String driverPhone;
+    private Long acceptDate;
 
     public OrderDto() {
     }
 
+    public OrderDto(String pointA, double[] pointACoordinate,
+                    String pointB, double[] pointBCoordinate,
+                    Long time, String userPhone, String status,
+                    Long id, String driverPhone, Date acceptDate) {
+        this.id = id;
+        this.pointA = pointA;
+        this.pointB = pointB;
+        this.time = time;
+        this.userPhone = userPhone;
+        this.status = status;
+        this.driverPhone = driverPhone;
+        this.pointACoordinate = pointACoordinate;
+        this.pointBCoordinate = pointBCoordinate;
+        this.acceptDate = acceptDate.getTime();
+    }
     public OrderDto(String pointA, double[] pointACoordinate,
                     String pointB, double[] pointBCoordinate,
                     Long time, String userPhone, String status,
@@ -113,9 +129,17 @@ public class OrderDto {
         this.pointBCoordinate = pointBCoordinate;
     }
 
+    public Long getAcceptDate() {
+        return acceptDate;
+    }
+
+    public void setAcceptDate(Long acceptDate) {
+        this.acceptDate = acceptDate;
+    }
+
     public OrdersEntity clone() {
         return new OrdersEntity(getPointA(), getPointB(), new Date(getTime()),
                 getUserPhone(), getStatus(), getDriverPhone(),
-                getPointACoordinate(), getPointBCoordinate());
+                getPointACoordinate(), getPointBCoordinate(),new Date(getAcceptDate()));
     }
 }

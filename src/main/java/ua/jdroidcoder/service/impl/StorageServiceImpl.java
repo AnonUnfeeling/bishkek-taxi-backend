@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ua.jdroidcoder.config.StorageProperties;
+import ua.jdroidcoder.persistent.dto.OrderDto;
+import ua.jdroidcoder.service.OrderService;
 import ua.jdroidcoder.service.StorageService;
 
 import java.io.IOException;
@@ -14,6 +16,9 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 /**
@@ -22,10 +27,12 @@ import java.util.stream.Stream;
 @Service
 public class StorageServiceImpl implements StorageService {
     private final Path rootLocation;
+    private OrderService orderService;
 
     @Autowired
-    public StorageServiceImpl(StorageProperties properties) {
+    public StorageServiceImpl(StorageProperties properties, OrderService orderService) {
         this.rootLocation = Paths.get(properties.getLocation());
+        this.orderService = orderService;
     }
 
     @Override
@@ -86,5 +93,23 @@ public class StorageServiceImpl implements StorageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        new Thread(() -> {
+            while (true) {
+                List<OrderDto> orderDtos = orderService.getAllOrders();
+                for (int i = 0; i < orderDtos.size(); i++) {
+                    Date date = new Date(orderDtos.get(i).getTime());
+                    Date currentDate = new Date();
+                    if (currentDate.getTime()-date.getTime()>=1800000) {
+                        orderService.removeOrderById(orderDtos.get(i).getId());
+                    }
+                }
+                try {
+                    TimeUnit.MINUTES.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }

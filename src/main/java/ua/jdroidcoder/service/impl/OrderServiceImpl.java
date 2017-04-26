@@ -8,6 +8,7 @@ import ua.jdroidcoder.persistent.repository.OrderRepository;
 import ua.jdroidcoder.persistent.repository.UserProfileRepository;
 import ua.jdroidcoder.service.OrderService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -48,6 +49,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto acceptOrder(OrderDto orderDto) {
         return orderRepository.save(orderRepository.findOne(orderDto.getId())
+                .setAcceptDate(new Date(orderDto.getAcceptDate()))
                 .setDriverPhone(orderDto.getDriverPhone()).setStatus("accepted")).clone();
     }
 
