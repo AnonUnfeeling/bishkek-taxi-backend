@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 import ua.jdroidcoder.persistent.dto.UserDto;
 import ua.jdroidcoder.persistent.dto.UserProfileDto;
 import ua.jdroidcoder.persistent.entity.OrdersEntity;
+import ua.jdroidcoder.persistent.entity.UserCoordinateEntity;
 import ua.jdroidcoder.persistent.entity.UserEntity;
 import ua.jdroidcoder.persistent.entity.UserProfileEntity;
 import ua.jdroidcoder.persistent.repository.OrderRepository;
+import ua.jdroidcoder.persistent.repository.UserCoordinateRepository;
 import ua.jdroidcoder.persistent.repository.UserRepository;
 import ua.jdroidcoder.service.UserService;
 
@@ -22,24 +24,21 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private OrderRepository orderRepository;
+    private UserCoordinateRepository userCoordinateRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, OrderRepository orderRepository) {
+    public UserServiceImpl(UserRepository userRepository, OrderRepository orderRepository,
+                           UserCoordinateRepository userCoordinateRepository) {
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
+        this.userCoordinateRepository = userCoordinateRepository;
     }
 
     @Override
     public boolean register(UserDto userDto) {
         try {
-//            System.out.println(userRepository.findUserByEmail(userDto.getEmail()));
-//            if(userRepository.findUserByEmail(userDto.getEmail()) == null){
-                userRepository.save(userDto.clone());
-                return true;
-//            }else {
-//                return false;
-//            }
-//            return userRepository.findUserByEmail(userDto.getEmail()) == null;
+            userRepository.save(userDto.clone());
+            return true;
         } catch (Exception e) {
             return false;
         }
@@ -49,7 +48,7 @@ public class UserServiceImpl implements UserService {
     public UserProfileDto login(UserDto userDto) {
         try {
             return userRepository.findUserByEmail(userDto.getEmail()).getUserProfileEntity().clone();
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
@@ -67,6 +66,11 @@ public class UserServiceImpl implements UserService {
             userEntity.getUserProfileEntity().setLastName(userDto.getLastName());
             userEntity.getUserProfileEntity().setPhone(userDto.getPhone());
             userEntity.getUserProfileEntity().setBalance(userEntity.getUserProfileEntity().getBalance());
+            try {
+                UserCoordinateEntity userCoordinateEntity = userCoordinateRepository.findUserCoordinateByUserPhone(phone);
+                userCoordinateEntity.setUserPhone(userDto.getPhone());
+                userCoordinateRepository.save(userCoordinateEntity);
+            } catch (Exception e) {}
             List<OrdersEntity> list = (List<OrdersEntity>) orderRepository.findOrderByUserPhone(phone);
             for (int i = 0; i < list.size(); i++) {
                 OrdersEntity order = list.get(i);
@@ -75,7 +79,7 @@ public class UserServiceImpl implements UserService {
             }
             userRepository.save(userEntity);
             return userDto;
-        }catch (Exception e){
+        } catch (Exception e) {
             userRepository.delete(userRepository.findUserByEmail(userDto.getEmail()).getId());
             return null;
         }
