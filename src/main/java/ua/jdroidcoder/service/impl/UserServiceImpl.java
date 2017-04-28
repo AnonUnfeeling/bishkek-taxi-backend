@@ -77,6 +77,12 @@ public class UserServiceImpl implements UserService {
                 order.setUserPhone(userDto.getPhone());
                 orderRepository.save(order);
             }
+            List<OrdersEntity> acceptList = (List<OrdersEntity>) orderRepository.findOrderByDriverPhone(phone);
+            for (int i = 0; i < acceptList.size(); i++) {
+                OrdersEntity order = acceptList.get(i);
+                order.setDriverPhone(userDto.getPhone());
+                orderRepository.save(order);
+            }
             userRepository.save(userEntity);
             return userDto;
         } catch (Exception e) {
