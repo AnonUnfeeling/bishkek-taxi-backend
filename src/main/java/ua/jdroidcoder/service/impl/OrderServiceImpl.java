@@ -63,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto removeAcceptedOrder(Long id) {
         return orderRepository.save(orderRepository.findOne(id)
-                .setDriverPhone(null).setStatus("new")).clone();
+                .setDriverPhone(null).setStatus("new").setAcceptDate(null)).clone();
     }
 
     @Override

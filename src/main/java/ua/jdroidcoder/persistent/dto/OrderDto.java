@@ -42,6 +42,7 @@ public class OrderDto {
         this.pointBCoordinate = pointBCoordinate;
         this.acceptDate = acceptDate.getTime();
     }
+
     public OrderDto(String pointA, double[] pointACoordinate,
                     String pointB, double[] pointBCoordinate,
                     Long time, String userPhone, String status,
@@ -138,8 +139,14 @@ public class OrderDto {
     }
 
     public OrdersEntity clone() {
-        return new OrdersEntity(getPointA(), getPointB(), new Date(getTime()),
-                getUserPhone(), getStatus(), getDriverPhone(),
-                getPointACoordinate(), getPointBCoordinate(),new Date(getAcceptDate()));
+        if (getAcceptDate() == null) {
+            return new OrdersEntity(getPointA(), getPointB(), new Date(getTime()),
+                    getUserPhone(), getStatus(), getDriverPhone(),
+                    getPointACoordinate(), getPointBCoordinate());
+        } else {
+            return new OrdersEntity(getPointA(), getPointB(), new Date(getTime()),
+                    getUserPhone(), getStatus(), getDriverPhone(),
+                    getPointACoordinate(), getPointBCoordinate(), new Date(getAcceptDate()));
+        }
     }
 }

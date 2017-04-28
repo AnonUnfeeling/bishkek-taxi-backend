@@ -1,5 +1,7 @@
 package ua.jdroidcoder.service.impl;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+import com.mysql.jdbc.exceptions.MySQLNonTransientException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.jdroidcoder.persistent.dto.UserDto;
@@ -30,7 +32,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean register(UserDto userDto) {
         try {
-            return (userRepository.save(userDto.clone()) != null);
+//            System.out.println(userRepository.findUserByEmail(userDto.getEmail()));
+//            if(userRepository.findUserByEmail(userDto.getEmail()) == null){
+                userRepository.save(userDto.clone());
+                return true;
+//            }else {
+//                return false;
+//            }
+//            return userRepository.findUserByEmail(userDto.getEmail()) == null;
         } catch (Exception e) {
             return false;
         }
@@ -38,29 +47,38 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserProfileDto login(UserDto userDto) {
-        return userRepository.findUserByEmail(userDto.getEmail()).getUserProfileEntity().clone();
+        try {
+            return userRepository.findUserByEmail(userDto.getEmail()).getUserProfileEntity().clone();
+        }catch (Exception e){
+            return null;
+        }
     }
 
     @Override
     public UserProfileDto setDataForUser(UserProfileDto userDto) {
-        UserEntity userEntity = userRepository.findUserByEmail(userDto.getEmail());
-        if (userEntity.getUserProfileEntity() == null) {
-            userEntity.setUserProfileEntity(new UserProfileEntity());
+        try {
+            UserEntity userEntity = userRepository.findUserByEmail(userDto.getEmail());
+            if (userEntity.getUserProfileEntity() == null) {
+                userEntity.setUserProfileEntity(new UserProfileEntity());
+            }
+            String phone = userEntity.getUserProfileEntity().getPhone();
+            userEntity.getUserProfileEntity().setEmail(userDto.getEmail());
+            userEntity.getUserProfileEntity().setFirtName(userDto.getFirstName());
+            userEntity.getUserProfileEntity().setLastName(userDto.getLastName());
+            userEntity.getUserProfileEntity().setPhone(userDto.getPhone());
+            userEntity.getUserProfileEntity().setBalance(userDto.getBalance());
+            List<OrdersEntity> list = (List<OrdersEntity>) orderRepository.findOrderByUserPhone(phone);
+            for (int i = 0; i < list.size(); i++) {
+                OrdersEntity order = list.get(i);
+                order.setUserPhone(userDto.getPhone());
+                orderRepository.save(order);
+            }
+            userRepository.save(userEntity);
+            return userDto;
+        }catch (Exception e){
+            userRepository.delete(userRepository.findUserByEmail(userDto.getEmail()).getId());
+            return null;
         }
-        String phone = userEntity.getUserProfileEntity().getPhone();
-        userEntity.getUserProfileEntity().setEmail(userDto.getEmail());
-        userEntity.getUserProfileEntity().setFirtName(userDto.getFirstName());
-        userEntity.getUserProfileEntity().setLastName(userDto.getLastName());
-        userEntity.getUserProfileEntity().setPhone(userDto.getPhone());
-        userEntity.getUserProfileEntity().setBalance(userDto.getBalance());
-        List<OrdersEntity> list = (List<OrdersEntity>) orderRepository.findOrderByUserPhone(phone);
-        for (int i = 0; i < list.size(); i++) {
-            OrdersEntity order = list.get(i);
-            order.setUserPhone(userDto.getPhone());
-            orderRepository.save(order);
-        }
-        userRepository.save(userEntity);
-        return userDto;
     }
 
     @Override

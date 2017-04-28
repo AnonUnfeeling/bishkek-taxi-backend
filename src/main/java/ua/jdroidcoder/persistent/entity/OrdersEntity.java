@@ -50,6 +50,21 @@ public class OrdersEntity extends AbstractEntity<Long> {
         this.acceptDate = acceptDate;
     }
 
+    public OrdersEntity(String pointA, String pointB, Date time,
+                        String userPhone, String status,
+                        String driverPhone,
+                        double[] pointACoordinate,
+                        double[] pointBCoordinate) {
+        this.pointA = pointA;
+        this.pointB = pointB;
+        this.time = time;
+        this.userPhone = userPhone;
+        this.status = status;
+        this.driverPhone = driverPhone;
+        this.pointACoordinate = pointACoordinate;
+        this.pointBCoordinate = pointBCoordinate;
+    }
+
     public String getUserPhone() {
         return userPhone;
     }
