@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
             userEntity.getUserProfileEntity().setFirtName(userDto.getFirstName());
             userEntity.getUserProfileEntity().setLastName(userDto.getLastName());
             userEntity.getUserProfileEntity().setPhone(userDto.getPhone());
-            userEntity.getUserProfileEntity().setBalance(userDto.getBalance());
+            userEntity.getUserProfileEntity().setBalance(userEntity.getUserProfileEntity().getBalance());
             List<OrdersEntity> list = (List<OrdersEntity>) orderRepository.findOrderByUserPhone(phone);
             for (int i = 0; i < list.size(); i++) {
                 OrdersEntity order = list.get(i);

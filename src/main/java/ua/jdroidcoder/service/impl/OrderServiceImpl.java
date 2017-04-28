@@ -48,9 +48,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto acceptOrder(OrderDto orderDto) {
-        return orderRepository.save(orderRepository.findOne(orderDto.getId())
-                .setAcceptDate(new Date(orderDto.getAcceptDate()))
-                .setDriverPhone(orderDto.getDriverPhone()).setStatus("accepted")).clone();
+        try {
+            return orderRepository.save(orderRepository.findOne(orderDto.getId())
+                    .setAcceptDate(new Date(orderDto.getAcceptDate()))
+                    .setDriverPhone(orderDto.getDriverPhone()).setStatus("accepted")).clone();
+        }catch (Exception e){
+            return null;
+        }
     }
 
     @Override
