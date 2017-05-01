@@ -1,7 +1,5 @@
 package ua.jdroidcoder.service.impl;
 
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
-import com.mysql.jdbc.exceptions.MySQLNonTransientException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.jdroidcoder.persistent.dto.UserDto;
@@ -70,7 +68,8 @@ public class UserServiceImpl implements UserService {
                 UserCoordinateEntity userCoordinateEntity = userCoordinateRepository.findUserCoordinateByUserPhone(phone);
                 userCoordinateEntity.setUserPhone(userDto.getPhone());
                 userCoordinateRepository.save(userCoordinateEntity);
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
             List<OrdersEntity> list = (List<OrdersEntity>) orderRepository.findOrderByUserPhone(phone);
             for (int i = 0; i < list.size(); i++) {
                 OrdersEntity order = list.get(i);
@@ -86,7 +85,11 @@ public class UserServiceImpl implements UserService {
             userRepository.save(userEntity);
             return userDto;
         } catch (Exception e) {
-            userRepository.delete(userRepository.findUserByEmail(userDto.getEmail()).getId());
+            try {
+                userRepository.delete(userRepository.findUserByEmail(userDto.getEmail()).getId());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
             return null;
         }
     }

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ua.jdroidcoder.persistent.dto.OrderDto;
 import ua.jdroidcoder.persistent.entity.OrdersEntity;
 import ua.jdroidcoder.persistent.repository.OrderRepository;
-import ua.jdroidcoder.persistent.repository.UserProfileRepository;
 import ua.jdroidcoder.service.OrderService;
 
 import java.util.Date;
