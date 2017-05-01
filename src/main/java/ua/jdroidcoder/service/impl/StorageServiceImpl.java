@@ -100,7 +100,7 @@ public class StorageServiceImpl implements StorageService {
                 for (int i = 0; i < orderDtos.size(); i++) {
                     Date date = new Date(orderDtos.get(i).getTime());
                     Date currentDate = new Date();
-                    if (currentDate.getTime()-date.getTime()>=1800000) {
+                    if (currentDate.getTime() - date.getTime() >= 1800000) {
                         orderService.removeOrderById(orderDtos.get(i).getId());
                     }
                 }

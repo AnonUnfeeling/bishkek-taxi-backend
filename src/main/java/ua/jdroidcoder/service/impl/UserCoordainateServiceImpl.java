@@ -21,18 +21,26 @@ public class UserCoordainateServiceImpl implements UserCoordinateService {
 
     @Override
     public UserCoordinateDto setCoordinate(UserCoordinateDto coordinateDto) {
-        UserCoordinateEntity coordinateEntity = coordinateRepository.findUserCoordinateByUserPhone(coordinateDto.getUserPhone());
-        coordinateEntity.setLat(coordinateDto.getLat());
-        coordinateEntity.setLng(coordinateDto.getLng());
-        if (coordinateEntity == null) {
-            return coordinateRepository.save(coordinateDto.clone()).clone();
-        } else {
-            return coordinateRepository.save(coordinateEntity).clone();
+        try {
+            UserCoordinateEntity coordinateEntity = coordinateRepository.findUserCoordinateByUserPhone(coordinateDto.getUserPhone());
+            if (coordinateEntity == null) {
+                return coordinateRepository.save(coordinateDto.clone()).clone();
+            } else {
+                coordinateEntity.setLat(coordinateDto.getLat());
+                coordinateEntity.setLng(coordinateDto.getLng());
+                return coordinateRepository.save(coordinateEntity).clone();
+            }
+        } catch (Exception e) {
+            return coordinateDto;
         }
     }
 
     @Override
     public UserCoordinateDto getCoordinate(String userPhone) {
-        return coordinateRepository.findUserCoordinateByUserPhone(userPhone).clone();
+        try {
+            return coordinateRepository.findUserCoordinateByUserPhone(userPhone).clone();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
