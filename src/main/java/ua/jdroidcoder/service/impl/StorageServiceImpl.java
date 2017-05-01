@@ -8,6 +8,7 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ua.jdroidcoder.config.StorageProperties;
 import ua.jdroidcoder.persistent.dto.OrderDto;
+import ua.jdroidcoder.persistent.entity.OrdersEntity;
 import ua.jdroidcoder.service.OrderService;
 import ua.jdroidcoder.service.StorageService;
 
@@ -96,9 +97,9 @@ public class StorageServiceImpl implements StorageService {
 
         new Thread(() -> {
             while (true) {
-                List<OrderDto> orderDtos = orderService.getAllOrders();
+                List<OrdersEntity> orderDtos = orderService.getOrders();
                 for (int i = 0; i < orderDtos.size(); i++) {
-                    Date date = new Date(orderDtos.get(i).getTime());
+                    Date date = orderDtos.get(i).getCreatedDate();
                     Date currentDate = new Date();
                     if (currentDate.getTime() - date.getTime() >= 1800000) {
                         orderService.removeOrderById(orderDtos.get(i).getId());

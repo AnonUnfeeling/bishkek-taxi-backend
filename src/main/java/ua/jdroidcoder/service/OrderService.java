@@ -1,6 +1,7 @@
 package ua.jdroidcoder.service;
 
 import ua.jdroidcoder.persistent.dto.OrderDto;
+import ua.jdroidcoder.persistent.entity.OrdersEntity;
 
 import java.util.List;
 
@@ -17,6 +18,8 @@ public interface OrderService {
     boolean getOrderById(Long id);
 
     List<OrderDto> getAllOrders();
+
+    List<OrdersEntity> getOrders();
 
     OrderDto acceptOrder(OrderDto orderDto);
 

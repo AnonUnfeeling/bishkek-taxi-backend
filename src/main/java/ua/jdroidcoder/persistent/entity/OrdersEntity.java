@@ -30,6 +30,8 @@ public class OrdersEntity extends AbstractEntity<Long> {
     private String driverPhone;
     @Column(name = "accept_date")
     private Date acceptDate;
+    @Column(name = "created_date")
+    private Date createdDate;
 
     public OrdersEntity() {
     }
@@ -133,6 +135,15 @@ public class OrdersEntity extends AbstractEntity<Long> {
 
     public Date getAcceptDate() {
         return acceptDate;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public OrdersEntity setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+        return this;
     }
 
     public OrdersEntity setAcceptDate(Date acceptDate) {

@@ -23,6 +23,7 @@ public class OrderDto {
     private String status;
     private String driverPhone;
     private Long acceptDate;
+    private Date createdDate;
 
     public OrderDto() {
     }

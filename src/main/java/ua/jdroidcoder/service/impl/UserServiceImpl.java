@@ -92,11 +92,11 @@ public class UserServiceImpl implements UserService {
             userRepository.save(userEntity);
             return userDto;
         } catch (Exception e) {
-//            try {
-//                userRepository.delete(userRepository.findUserByEmail(userDto.getEmail()).getId());
-//            } catch (Exception ex) {
-//                ex.printStackTrace();
-//            }
+            try {
+                userRepository.delete(userRepository.findUserByEmail(userDto.getEmail()).getId());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
             return null;
         }
     }

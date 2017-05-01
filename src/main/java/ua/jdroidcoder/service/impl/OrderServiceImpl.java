@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto makeOrder(OrderDto orderDto) {
         if (getAllOrders(orderDto.getUserPhone()).isEmpty()) {
-            return orderRepository.save(orderDto.clone()).clone();
+            return orderRepository.save(orderDto.clone().setCreatedDate(new Date())).clone();
         } else {
             return null;
         }
@@ -47,6 +47,11 @@ public class OrderServiceImpl implements OrderService {
                 .filter(ordersEntity -> ordersEntity.getStatus().equals("new"))
                 .map(OrdersEntity::clone)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<OrdersEntity> getOrders() {
+        return (List<OrdersEntity>) orderRepository.findAll();
     }
 
     @Override
