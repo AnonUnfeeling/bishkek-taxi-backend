@@ -28,7 +28,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto makeOrder(OrderDto orderDto) {
-        return orderRepository.save(orderDto.clone()).clone();
+        if (getAllOrders(orderDto.getUserPhone()).isEmpty()) {
+            return orderRepository.save(orderDto.clone()).clone();
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -52,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
             return orderRepository.save(orderRepository.findOne(orderDto.getId())
                     .setAcceptDate(new Date(orderDto.getAcceptDate()))
                     .setDriverPhone(orderDto.getDriverPhone()).setStatus("accepted")).clone();
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
@@ -69,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
         try {
             return orderRepository.save(orderRepository.findOne(id)
                     .setDriverPhone(null).setStatus("new").setAcceptDate(null)).clone();
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
