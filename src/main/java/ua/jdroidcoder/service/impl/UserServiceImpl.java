@@ -70,17 +70,24 @@ public class UserServiceImpl implements UserService {
                 userCoordinateRepository.save(userCoordinateEntity);
             } catch (Exception e) {
             }
-            List<OrdersEntity> list = (List<OrdersEntity>) orderRepository.findOrderByUserPhone(phone);
-            for (int i = 0; i < list.size(); i++) {
-                OrdersEntity order = list.get(i);
-                order.setUserPhone(userDto.getPhone());
-                orderRepository.save(order);
+            try {
+                List<OrdersEntity> list = (List<OrdersEntity>) orderRepository.findOrderByUserPhone(phone);
+                for (int i = 0; i < list.size(); i++) {
+                    OrdersEntity order = list.get(i);
+                    order.setUserPhone(userDto.getPhone());
+                    orderRepository.save(order);
+                }
+            } catch (Exception e) {
             }
-            List<OrdersEntity> acceptList = (List<OrdersEntity>) orderRepository.findOrderByDriverPhone(phone);
-            for (int i = 0; i < acceptList.size(); i++) {
-                OrdersEntity order = acceptList.get(i);
-                order.setDriverPhone(userDto.getPhone());
-                orderRepository.save(order);
+            try {
+                List<OrdersEntity> acceptList = (List<OrdersEntity>) orderRepository.findOrderByDriverPhone(phone);
+                for (int i = 0; i < acceptList.size(); i++) {
+                    OrdersEntity order = acceptList.get(i);
+                    order.setDriverPhone(userDto.getPhone());
+                    orderRepository.save(order);
+                }
+            } catch (Exception e) {
+
             }
             userRepository.save(userEntity);
             return userDto;
